@@ -119,19 +119,20 @@ public partial class MainPage : ContentPage
     }
 
     /// <summary>
-    /// Resets the grid buttons so their content is all ""
+    /// Resets the grid buttons so their content is all "", also randomizes the color of each tile
     /// </summary>
     private void ResetGame()
     {
+                                                                        // Color randomizing nested loops
         for (int i = 0; i < TicTacToeGame.GRID_SIZE; i++)
         {
             for (int j = 0; j < TicTacToeGame.GRID_SIZE; j++)
             {
                 brush = new SolidColorBrush(Color.FromRgb(random.Next(1, 255), random.Next(125, 255), random.Next(200, 255)));
-                grid[i, j].Background = brush;
-            }
+                grid[i, j].Background = brush;                          // Line above generates random color, this line assigns it to the tile
+            }   
         }
-
+                                                                        // Resetting tiles to be empty nested loops
         for (int i = 0; i < TicTacToeGame.GRID_SIZE; i++)
         {
             for (int j = 0; j < TicTacToeGame.GRID_SIZE; j++)
