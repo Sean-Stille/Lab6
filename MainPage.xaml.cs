@@ -12,6 +12,7 @@ using System.Diagnostics;
  */
 
 using Lab6Starter;
+using Microsoft.Maui.Controls;
 
 
 /// <summary>
@@ -21,6 +22,8 @@ public partial class MainPage : ContentPage
 {
     TicTacToeGame ticTacToe; // model class
     Button[,] grid;          // stores the buttons
+    static Random random = new Random();
+    Brush brush;
 
 
     /// <summary>
@@ -31,7 +34,17 @@ public partial class MainPage : ContentPage
         InitializeComponent();
         ticTacToe = new TicTacToeGame();
         grid = new Button[TicTacToeGame.GRID_SIZE, TicTacToeGame.GRID_SIZE] { { Tile00, Tile01, Tile02 }, { Tile10, Tile11, Tile12 }, { Tile20, Tile21, Tile22 } };
+
+        for(int i = 0; i < TicTacToeGame.GRID_SIZE; i++)
+        {
+            for (int j = 0; j < TicTacToeGame.GRID_SIZE; j++)
+            {
+                brush = new SolidColorBrush(Color.FromRgb(random.Next(1, 255), random.Next(125, 255), random.Next(200, 255)));
+                grid[i, j].Background = brush;
+            }
+        }
     }
+
 
     /// <summary>
     /// Handles button clicks - changes the button to an X or O (depending on whose turn it is)
@@ -52,7 +65,7 @@ public partial class MainPage : ContentPage
         FindTappedButtonRowCol(button, out row, out col);
         if (button.Text.ToString() != "")
         { // if the button has an X or O, bail
-            DisplayAlert("Illegal move", "Fill this in with something more meaningful", "OK");
+            DisplayAlert("Illegal move", "You must choose an empty tile", "OK");
             return;
         }
         button.Text = currentPlayer.ToString();
@@ -110,6 +123,15 @@ public partial class MainPage : ContentPage
     /// </summary>
     private void ResetGame()
     {
+        for (int i = 0; i < TicTacToeGame.GRID_SIZE; i++)
+        {
+            for (int j = 0; j < TicTacToeGame.GRID_SIZE; j++)
+            {
+                brush = new SolidColorBrush(Color.FromRgb(random.Next(1, 255), random.Next(125, 255), random.Next(200, 255)));
+                grid[i, j].Background = brush;
+            }
+        }
+
         for (int i = 0; i < TicTacToeGame.GRID_SIZE; i++)
         {
             for (int j = 0; j < TicTacToeGame.GRID_SIZE; j++)
