@@ -1,6 +1,5 @@
 ﻿namespace Lab6Starter;
 
-using System.Diagnostics;
 /**
  * 
  * Name: 
@@ -13,6 +12,13 @@ using System.Diagnostics;
 
 using Lab6Starter;
 using Microsoft.Maui.Controls;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Threading;
+using System.Diagnostics;
 
 
 /// <summary>
@@ -20,6 +26,7 @@ using Microsoft.Maui.Controls;
 /// </summary>
 public partial class MainPage : ContentPage
 {
+    Stopwatch stopWatch = new Stopwatch();
     TicTacToeGame ticTacToe; // model class
     Button[,] grid;          // stores the buttons
     static Random random = new Random();
@@ -32,6 +39,7 @@ public partial class MainPage : ContentPage
     public MainPage()
     {
         InitializeComponent();
+        stopWatch.Start();
         ticTacToe = new TicTacToeGame();
         grid = new Button[TicTacToeGame.GRID_SIZE, TicTacToeGame.GRID_SIZE] { { Tile00, Tile01, Tile02 }, { Tile10, Tile11, Tile12 }, { Tile20, Tile21, Tile22 } };
 
@@ -111,7 +119,9 @@ public partial class MainPage : ContentPage
     /// </summary>
     private void CelebrateVictory(Player victor)
     {
-        DisplayAlert("Winner!", String.Format("Congratulations, {0}, you're the big winner today!", victor.ToString()), "OK");
+        stopWatch.Stop();
+        TimeSpan timeSpan = stopWatch.Elapsed;
+        DisplayAlert("Winner!", String.Format("Congratulations, {0}, you're the big winner today! Time elapsed: {1}", victor.ToString(), String.Format("{0:00}:{1:00}:{2:00}", timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds), stopWatch.Elapsed), "OK");
         XScoreLBL.Text = String.Format("X's Score: {0}", ticTacToe.XScore);
         OScoreLBL.Text = String.Format("O's Score: {0}", ticTacToe.OScore);
 
@@ -140,6 +150,8 @@ public partial class MainPage : ContentPage
                 grid[i, j].Text = string.Empty;
             }
         }
+
+        stopWatch.Start();
     }
 
 }
